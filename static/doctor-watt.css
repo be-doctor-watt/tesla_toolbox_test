@@ -1,0 +1,908 @@
+/* Charte Doctor-Watt, reprise de doctor-watt-2.0/frontend/app/globals.css.
+   Interface atelier : lisibilité debout sur tablette, cibles tactiles larges,
+   contrastes élevés. Les jetons de couleur ne doivent pas diverger de ceux de
+   ValiZia, c'est la même marque. */
+
+:root {
+  --fond-debut: #f8fbff;
+  --fond-fin: #ffffff;
+  --carte: rgba(255, 255, 255, 0.78);
+  --carte-bordure: rgba(255, 255, 255, 0.6);
+  --texte: #1b2a4a;
+  --texte-secondaire: #55606b;
+  --accent-1: #134cc9;
+  --accent-2: #2c62f0;
+  --accent-3: #5b86ff;
+  --accent-degrade: linear-gradient(90deg, var(--accent-1) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+  --danger: #ff4d4f;
+  --danger-fond: #fff1f0;
+  --info-fond: #e8f1ff;
+  --bordure: #d6defa;
+  /* Latérale : un fond légèrement teinté du bleu de marque, et trois niveaux
+     de gris qui en descendent, pour que la liste reste en retrait du fil. */
+  --panneau-fond: #f4f7fd;
+  --panneau-bordure: #e2e8f7;
+  --panneau-survol: rgba(255, 255, 255, 0.9);
+  --panneau-actif: #e2eafd;
+  --texte-tertiaire: #8a94a6;
+  --rayon: 14px;
+  --rayon-carte: 20px;
+  --ombre-carte: 0 10px 30px rgba(23, 37, 84, 0.12);
+  --ombre-bouton: 0 6px 16px rgba(19, 76, 201, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Sans ça, `display: flex` sur .application écrase le `display: none` que le
+   navigateur applique à [hidden], et les deux écrans s'affichent empilés. */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  color: var(--texte);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  background:
+    radial-gradient(1000px 500px at 50% -150px, rgba(207, 224, 255, 0.7) 0%, rgba(207, 224, 255, 0) 60%),
+    linear-gradient(180deg, var(--fond-debut) 0%, var(--fond-fin) 100%);
+}
+
+h1 {
+  font-size: 1.7rem;
+  margin: 0;
+  background: var(--accent-degrade);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin: 0 0 8px 0;
+  color: var(--accent-1);
+}
+
+.carte {
+  background: var(--carte);
+  border: 1px solid var(--carte-bordure);
+  border-radius: var(--rayon-carte);
+  box-shadow: var(--ombre-carte);
+  backdrop-filter: saturate(180%) blur(10px);
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  padding: 20px;
+}
+
+button,
+.bouton {
+  min-height: 56px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--rayon);
+  background: var(--accent-degrade);
+  color: #ffffff;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--ombre-bouton);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-family: inherit;
+}
+
+button:active,
+.bouton:active {
+  transform: translateY(1px);
+}
+
+button.secondaire,
+.bouton.secondaire {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--texte);
+  border: 1px solid var(--bordure);
+  box-shadow: none;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+input,
+textarea {
+  min-height: 56px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--texte);
+  font-family: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 1px;
+}
+
+.pastille {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.discret {
+  color: var(--texte-secondaire);
+  font-size: 0.9rem;
+}
+
+.erreur {
+  color: #a8071a;
+}
+
+.bandeau-securite {
+  border-radius: var(--rayon);
+  padding: 16px 20px;
+  font-weight: 600;
+}
+
+.bandeau-securite.danger {
+  background: var(--danger-fond);
+  border: 2px solid var(--danger);
+  color: #a8071a;
+}
+
+.bandeau-securite.information {
+  background: var(--info-fond);
+  border: 1px solid var(--accent-2);
+  color: #003a8c;
+}
+
+.conversation {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message {
+  padding: 12px 16px;
+  border-radius: var(--rayon);
+  max-width: 85%;
+  white-space: pre-wrap;
+}
+
+.message.technicien {
+  align-self: flex-end;
+  background: var(--accent-degrade);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(19, 76, 201, 0.2);
+}
+
+.message.assistant {
+  align-self: flex-start;
+  background: rgba(241, 245, 255, 0.85);
+  border: 1px solid var(--bordure);
+  box-shadow: 0 2px 8px rgba(23, 37, 84, 0.08);
+}
+
+.zone-saisie {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.reflexion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent-1);
+  font-size: 0.9rem;
+  font-style: italic;
+  align-self: flex-start;
+  padding: 6px 8px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(91, 111, 175, 0.2);
+  border-top-color: var(--accent-1);
+  border-radius: 50%;
+  animation: tourner 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes tourner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ------------------------------------------------------------------------
+   Spécifique à cet outil : chat plein écran, sources, journal de recherche.
+   ------------------------------------------------------------------------ */
+
+.application {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 16px;
+  gap: 16px;
+  min-width: 0;   /* sinon le fil pousse la grille et déborde */
+}
+
+/* Liste des conversations à gauche, chat à droite.
+   `grid-template-rows: minmax(0, 1fr)` est indispensable : sans lui la ligne
+   est dimensionnée en `auto`, elle grandit avec le fil, et c'est la PAGE qui
+   défile au lieu du seul fil, ce qui pousse la barre latérale hors de l'écran. */
+.atelier {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.panneau {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 10px 10px 10px;
+  border-right: 1px solid var(--panneau-bordure);
+  background: var(--panneau-fond);
+  overflow: hidden;
+}
+
+/* Le mot-symbole est un lockup empilé (DOCTOR / WATT / E.garage) : il devient
+   illisible sous ~60px, donc on lui donne de la largeur et le nom de l'outil
+   passe dessous plutôt qu'à côté. */
+.panneau-marque {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 4px 8px 14px 8px;
+}
+
+.logo-panneau {
+  width: 168px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.nom-panneau {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--texte-secondaire);
+  letter-spacing: 0.01em;
+}
+
+/* Écran de connexion : le logo à une taille où il se lit vraiment. */
+.marque-connexion {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.logo-marque {
+  width: 210px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* Bouton discret, pas un aplat dégradé : dans une latérale, l'accent doit
+   servir à montrer où on est, pas à crier une action permanente. */
+button.nouvelle {
+  min-height: 40px;
+  width: 100%;
+  justify-content: flex-start;
+  gap: 9px;
+  padding: 0 10px;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--texte);
+  background: transparent;
+  border: 1px solid var(--panneau-bordure);
+  border-radius: 10px;
+  box-shadow: none;
+  white-space: nowrap;
+}
+
+button.nouvelle:hover {
+  background: var(--panneau-survol);
+  border-color: var(--bordure);
+}
+
+button.nouvelle .plus {
+  font-size: 1.15rem;
+  line-height: 1;
+  color: var(--accent-1);
+  font-weight: 400;
+}
+
+.liste-conversations {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 -4px;
+  padding: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bordure) transparent;
+}
+
+.liste-conversations::-webkit-scrollbar {
+  width: 8px;
+}
+
+.liste-conversations::-webkit-scrollbar-thumb {
+  background: var(--bordure);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.liste-conversations::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Libellé de groupe : le repère de date, en retrait, jamais concurrent des
+   titres. */
+.groupe-date {
+  padding: 14px 10px 4px 10px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--texte-tertiaire);
+}
+
+.groupe-date:first-child {
+  padding-top: 4px;
+}
+
+.conversation-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.conversation-item:hover {
+  background: var(--panneau-survol);
+}
+
+.conversation-item.courante {
+  background: var(--panneau-actif);
+}
+
+/* Une seule ligne, le titre et rien d'autre. Les métadonnées (heure, nombre
+   de messages) encombraient sans jamais servir à choisir une conversation. */
+.conversation-item .ouvrir {
+  flex: 1;
+  min-width: 0;
+  min-height: 34px;
+  padding: 7px 10px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--texte-secondaire);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: left;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.conversation-item.courante .ouvrir {
+  color: var(--texte);
+  font-weight: 500;
+}
+
+/* Action révélée au survol seulement, pour que la liste reste calme. Un
+   dégradé masque la fin du titre au lieu de la couper net sous la croix. */
+.conversation-item .supprimer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 34px;
+  padding: 0 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--texte-tertiaire);
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 0 8px 8px 0;
+  min-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.conversation-item:hover .supprimer,
+.conversation-item .supprimer:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  background: linear-gradient(90deg, transparent 0, var(--panneau-survol) 12px);
+}
+
+.conversation-item.courante:hover .supprimer {
+  background: linear-gradient(90deg, transparent 0, var(--panneau-actif) 12px);
+}
+
+.conversation-item .supprimer:hover {
+  color: #a8071a;
+}
+
+.liste-vide {
+  color: var(--texte-tertiaire);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding: 10px;
+}
+
+.panneau-pied {
+  flex-shrink: 0;
+  border-top: 1px solid var(--panneau-bordure);
+  margin: 6px -10px 0 -10px;
+  padding: 10px 18px 2px 18px;
+}
+
+.ligne-pied {
+  margin: 0 0 3px 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--texte-tertiaire);
+}
+
+.lien-pied {
+  min-height: 0;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: var(--texte-secondaire);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.lien-pied:hover {
+  color: #a8071a;
+}
+
+/* En-tête du fil : le titre de la conversation, discret, et les compteurs. */
+.titre-courant {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.titre-courant h1 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--texte);
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bascule-panneau {
+  display: none;
+  min-height: 44px;
+  width: 44px;
+  padding: 0;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--texte);
+  border: 1px solid var(--bordure);
+  box-shadow: none;
+}
+
+.centre {
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.entete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  min-height: 34px;
+  /* Pas de retour à la ligne : un titre long doit se tronquer, pas repousser
+     les compteurs sur une deuxième ligne. */
+  flex-wrap: nowrap;
+}
+
+.titre-courant {
+  flex: 1;
+}
+
+.compteurs {
+  flex-shrink: 0;
+}
+
+.marque {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.compteurs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.compteur {
+  background: var(--info-fond);
+  border: 1px solid var(--bordure);
+  color: var(--accent-1);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* La conversation seule défile : la saisie reste toujours atteignable au
+   pouce, y compris sur tablette en position debout. */
+.fil {
+  flex: 1;
+  min-height: 0;      /* sans ça, le contenu impose sa hauteur et déborde */
+  overflow-y: auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message.assistant {
+  max-width: 92%;
+}
+
+.tour {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.titre-sources {
+  margin: 4px 0 0 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-1);
+}
+
+.sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-left: 4px;
+}
+
+.source {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--bordure);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent-1);
+  text-decoration: none;
+  max-width: 100%;
+}
+
+.source:hover {
+  border-color: var(--accent-2);
+  background: var(--info-fond);
+}
+
+.source .num {
+  font-variant-numeric: tabular-nums;
+  color: var(--texte-secondaire);
+  font-weight: 400;
+}
+
+.code-defaut {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  background: var(--info-fond);
+  border: 1px solid var(--accent-2);
+  color: #003a8c;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+details.detail {
+  align-self: flex-start;
+  max-width: 92%;
+  font-size: 0.9rem;
+}
+
+details.detail > summary {
+  cursor: pointer;
+  color: var(--accent-1);
+  font-weight: 600;
+  padding: 6px 4px;
+  list-style: none;
+}
+
+details.detail > summary::before {
+  content: "▸ ";
+}
+
+details.detail[open] > summary::before {
+  content: "▾ ";
+}
+
+details.detail > summary::-webkit-details-marker {
+  display: none;
+}
+
+.journal {
+  margin: 4px 0 0 0;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  list-style: none;
+  color: var(--texte-secondaire);
+  font-size: 0.85rem;
+}
+
+.journal li {
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(214, 222, 250, 0.6);
+}
+
+.journal li:last-child {
+  border-bottom: none;
+}
+
+.journal .depuis-toolbox {
+  color: var(--accent-1);
+  font-weight: 600;
+}
+
+.extrait {
+  margin-top: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--bordure);
+  border-left: 3px solid var(--accent-3);
+  border-radius: var(--rayon);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  color: var(--texte-secondaire);
+}
+
+.extrait .titre {
+  color: var(--texte);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Une « voie » de connexion : bloc autonome, pour que les trois options ne
+   se confondent pas en un mur de texte. */
+.voie {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--bordure);
+  border-radius: var(--rayon);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.voie-titre {
+  margin: 0 0 6px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-1);
+}
+
+.voie .etapes {
+  margin: 10px 0;
+  font-size: 0.9rem;
+}
+
+.bouton-lien {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: var(--accent-degrade);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.progression {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: var(--rayon);
+  background: var(--info-fond);
+  border: 1px solid var(--accent-2);
+  color: #003a8c;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.exemples {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.exemple {
+  min-height: 0;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--texte);
+  border: 1px solid var(--bordure);
+  box-shadow: none;
+}
+
+.exemple:hover {
+  border-color: var(--accent-2);
+  background: var(--info-fond);
+}
+
+.zone-saisie {
+  flex-shrink: 0;
+}
+
+.zone-saisie textarea {
+  min-height: 56px;
+  max-height: 180px;
+  resize: none;
+  overflow-y: auto;
+}
+
+.etapes {
+  margin: 12px 0 0 0;
+  padding-left: 26px;
+  color: var(--texte-secondaire);
+  font-size: 0.95rem;
+}
+
+.etapes li {
+  padding: 5px 0;
+}
+
+.etapes code,
+.enligne {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  background: var(--info-fond);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.85em;
+  color: #003a8c;
+  word-break: break-all;
+}
+
+.champ {
+  display: block;
+  margin: 16px 0 6px 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.champ .obligatoire {
+  color: var(--texte-secondaire);
+  font-weight: 400;
+}
+
+textarea.jeton {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  min-height: 88px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+/* Tablette et en dessous : le panneau se replie en tiroir, la place va au fil.
+   La bascule est le seul moyen d'y accéder, donc elle apparaît ici. */
+@media (max-width: 900px) {
+  .atelier {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bascule-panneau {
+    display: inline-flex;
+  }
+
+  .panneau {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 86vw;
+    z-index: 20;
+    background: var(--fond-fin);
+    box-shadow: 0 10px 40px rgba(23, 37, 84, 0.22);
+    transform: translateX(-100%);
+    transition: transform 0.18s ease;
+  }
+
+  .panneau.ouvert {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 17px;
+  }
+
+  .message {
+    max-width: 100%;
+  }
+
+  .message.assistant,
+  details.detail {
+    max-width: 100%;
+  }
+}

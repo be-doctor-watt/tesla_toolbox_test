@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <style>
+    /* Charte Doctor-Watt, réduite à ce qu'une fenêtre d'extension demande. */
+    :root {
+      --accent-1: #134cc9;
+      --accent-2: #2c62f0;
+      --texte: #1b2a4a;
+      --texte-secondaire: #55606b;
+      --bordure: #d6defa;
+      --info-fond: #e8f1ff;
+    }
+    body {
+      width: 288px;
+      margin: 0;
+      padding: 16px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--texte);
+      background: #f8fbff;
+    }
+    h1 { font-size: 14px; margin: 0 0 2px 0; color: var(--accent-1); }
+    p { margin: 0 0 10px 0; color: var(--texte-secondaire); }
+    button {
+      width: 100%;
+      min-height: 40px;
+      font: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    #etat {
+      margin-top: 10px;
+      padding: 9px 11px;
+      border-radius: 9px;
+      background: var(--info-fond);
+      border: 1px solid var(--bordure);
+      font-size: 12px;
+    }
+    #etat.erreur { background: #fff1f0; border-color: #ff4d4f; color: #a8071a; }
+    #etat[hidden] { display: none; }
+    label { display: block; margin-top: 12px; font-size: 11px; color: var(--texte-secondaire); }
+    input {
+      width: 100%;
+      margin-top: 3px;
+      padding: 6px 8px;
+      font: inherit;
+      font-size: 12px;
+      border: 1px solid var(--bordure);
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <h1>Recherche Toolbox</h1>
+  <p>Envoie le jeton de ta session Toolbox à l'outil local.</p>
+
+  <button id="envoyer">Envoyer mon jeton</button>
+  <p id="etat" hidden></p>
+
+  <label for="serveur">Adresse de l'outil</label>
+  <input id="serveur" type="text" placeholder="http://127.0.0.1:8000" spellcheck="false">
+
+  <script src="fenetre.js"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#134cc9">
+  <title>Toolbox, recherche de codes défaut — Doctor-Watt</title>
+  <link rel="icon" href="/static/logo-doctor-watt.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/doctor-watt.css">
+</head>
+<body>
+
+<!-- Écran 1 : connexion Toolbox ------------------------------------------->
+<div class="application centre" id="vue-connexion" hidden>
+  <section class="carte">
+    <div class="marque-connexion">
+      <img class="logo-marque" src="/static/logo-doctor-watt.svg"
+           alt="Doctor-Watt, e-garage">
+      <div>
+        <h1>Recherche Toolbox</h1>
+        <p class="discret" style="margin: 0;">
+          Codes défaut Tesla, assistés par IA.
+        </p>
+      </div>
+    </div>
+
+    <h2 style="margin-top: 24px;">Session Toolbox</h2>
+    <p class="discret" style="margin-top: 0;">
+      Le jeton Toolbox expire au bout de 24 heures environ. Il est conservé par
+      le serveur local, sur cette machine, dans un fichier lisible de toi seul,
+      afin que la session reste ouverte d'un redémarrage à l'autre.
+      « Fermer la session » l'efface.
+    </p>
+
+    <!-- Le bouton ouvre Toolbox dans TON navigateur, celui où tu es déjà
+         connecté. L'extension y lit le jeton et le pousse ici : la page le
+         détecte par sondage et bascule sur le chat. -->
+    <button id="bouton-connecter" style="width: 100%; margin-top: 4px;">
+      Se connecter à Toolbox
+    </button>
+
+    <div id="progression" class="progression" hidden>
+      <span class="spinner"></span>
+      <span id="message-progression"></span>
+      <button class="lien-pied" id="annuler-connexion"
+              style="margin-left: auto;">Annuler</button>
+    </div>
+
+    <p id="erreur-connexion" class="bandeau-securite danger"
+       style="margin-top: 14px; font-size: 0.9rem;" hidden></p>
+
+    <p class="discret" id="aide-connexion" style="margin: 10px 0 0 0;">
+      Toolbox s'ouvre dans un nouvel onglet. Tu y es déjà connecté, l'extension
+      récupère le jeton et tu reviens ici automatiquement.
+    </p>
+
+    <details class="detail" id="aide-extension" style="margin-top: 16px;">
+      <summary>L'extension n'est pas encore installée ?</summary>
+      <div class="voie" style="margin-top: 8px;">
+        <p class="discret" style="margin-top: 0;">
+          Elle lit le jeton dans ton navigateur et l'envoie ici. Une seule
+          installation, puis plus rien à faire, y compris après l'expiration
+          des 24 heures.
+        </p>
+        <ol class="etapes">
+          <li>Télécharger et décompresser
+            <a class="bouton-lien" href="/extension.zip" download>extension-toolbox.zip</a>
+            (ou utiliser le dossier
+            <span class="enligne" id="chemin-extension">extension/</span>).</li>
+          <li>Dans Chrome, ouvrir <span class="enligne">chrome://extensions</span>,
+            activer le <strong>mode développeur</strong> en haut à droite.</li>
+          <li><strong>Charger l'extension non empaquetée</strong>, puis choisir
+            le dossier.</li>
+        </ol>
+        <p class="discret" style="margin-bottom: 0;">
+          Un ✓ bleu sur son icône confirme l'envoi. Son bouton permet aussi de
+          forcer un envoi à la main.
+        </p>
+      </div>
+    </details>
+
+    <p class="discret" style="margin-bottom: 0;">
+      Ton abonnement Toolbox est nominatif et le contenu est sous copyright
+      Tesla. Corpus interne, pas de rediffusion.
+    </p>
+  </section>
+</div>
+
+<!-- Écran 2 : chat -------------------------------------------------------->
+<div class="atelier" id="vue-chat" hidden>
+
+  <!-- Liste des conversations -->
+  <aside class="panneau" id="panneau">
+    <div class="panneau-marque">
+      <img class="logo-panneau" src="/static/logo-doctor-watt.svg"
+           alt="Doctor-Watt, e-garage">
+      <span class="nom-panneau">Recherche Toolbox</span>
+    </div>
+
+    <button id="bouton-nouvelle" class="nouvelle">
+      <span class="plus" aria-hidden="true">+</span>Nouvelle conversation
+    </button>
+
+    <nav class="liste-conversations" id="liste-conversations"></nav>
+
+    <div class="panneau-pied">
+      <p class="ligne-pied" id="etat-modele"></p>
+      <p class="ligne-pied" id="etat-session"></p>
+      <button class="lien-pied" id="bouton-deconnexion">Fermer la session</button>
+    </div>
+  </aside>
+
+  <div class="application">
+    <div class="entete">
+      <div class="titre-courant">
+        <button class="bascule-panneau" id="bascule-panneau"
+                aria-label="Afficher ou masquer les conversations">☰</button>
+        <h1 id="titre-conversation">Nouvelle conversation</h1>
+      </div>
+      <div class="compteurs">
+        <span class="compteur" id="compteur-codes">0 code</span>
+        <span class="compteur" id="compteur-articles">0 article</span>
+      </div>
+    </div>
+
+    <div class="fil" id="fil"></div>
+
+    <form class="zone-saisie" id="formulaire-question">
+      <textarea id="champ-question" rows="1" spellcheck="false"
+                placeholder="Question sur un code défaut, par exemple « BMS_a066 après swap de module »"></textarea>
+      <button type="submit" id="bouton-envoyer">Envoyer</button>
+    </form>
+  </div>
+</div>
+
+<!-- Écran d'accueil d'une conversation vide. Cloné par app.js à chaque
+     nouvelle conversation, donc gardé ici plutôt que construit en JS. -->
+<template id="modele-accueil">
+  <div class="tour">
+    <div class="message assistant">Pose ta question sur un code défaut, en français. Si le code n'est pas encore dans l'index local, je vais le chercher sur Toolbox et je le garde pour la prochaine fois.</div>
+    <div class="exemples">
+      <button class="exemple">Pourquoi BMS_a066 revient après un remplacement de module ?</button>
+      <button class="exemple">Que signifie DI_a175 et quelles sont les causes possibles ?</button>
+      <button class="exemple">CP_a004 : quelle procédure de contrôle du verrou de trappe ?</button>
+      <button class="exemple">Différence entre BMS_a066 et BMS_a067 ?</button>
+    </div>
+  </div>
+</template>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

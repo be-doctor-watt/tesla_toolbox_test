@@ -1,0 +1,17 @@
+# Secrets : jeton Toolbox, clé Mistral. Jamais versionnés.
+.env
+.session.json
+
+# Corpus sous copyright Tesla : ne sort pas de la machine.
+raw/
+corpus.jsonl
+ids.json
+qdrant_data/
+# Contient des extraits de doc Tesla.
+conversations.json
+conversations.json.*
+
+# Environnement local
+.venv/
+__pycache__/
+*.pyc

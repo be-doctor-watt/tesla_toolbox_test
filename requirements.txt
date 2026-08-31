@@ -1,0 +1,26 @@
+# Aspiration (harvest.py) + mode live (live.py)
+requests>=2.31
+
+# Indexation + recherche (rag.py)
+qdrant-client>=1.9
+
+# Embeddings locaux — recommandé, rien ne sort de ta machine.
+# Premier lancement : télécharge ~2 Go de modèle ONNX.
+#
+# Plancher à 0.6 et non 0.3 : jusqu'à 0.5.1, fastembed appliquait un pooling
+# CLS à multilingual-e5-large, ensuite un mean pooling (qui est le pooling
+# officiel du modèle, donc le bon). Les vecteurs des deux régimes ne sont pas
+# comparables : un index construit avec l'un et interrogé avec l'autre perd
+# massivement en rappel, SANS lever d'erreur. Si tu changes de version majeure,
+# réindexe.
+fastembed>=0.6
+
+# API + interface (serve.py)
+fastapi>=0.110
+uvicorn>=0.29
+
+# Couche modèle de langage (llm.py) — Mistral via API européenne
+httpx>=0.27
+
+# Uniquement si tu choisis --backend openai
+# openai>=1.30

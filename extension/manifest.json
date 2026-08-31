@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Recherche Toolbox — Doctor-Watt",
+  "version": "1.0",
+  "description": "Envoie le jeton Toolbox à l'outil de recherche local, sans passer par le DevTools.",
+  "permissions": ["cookies", "tabs", "storage"],
+  "host_permissions": [
+    "https://toolbox.tesla.com/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "background": { "service_worker": "arriere-plan.js" },
+  "action": {
+    "default_title": "Envoyer mon jeton Toolbox",
+    "default_popup": "fenetre.html"
+  },
+  "icons": { "128": "icone.png" }
+}
