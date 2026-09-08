@@ -449,12 +449,21 @@ def crawl_ids(s, query=None) -> list[int]:
         return search_ids(s, query)
 
     print("  test d'une requête vide (énumération complète)...")
-    ids = search_ids(s, "")
+    # **L'échec doit être non fatal, et il ne l'était pas.** Toolbox répond
+    # HTTP 500 à `q=`, `check()` lève, et le repli par graines écrit juste en
+    # dessous ne tournait donc jamais : le crawl s'arrêtait sur cette première
+    # requête sans ramener un seul article. Le repli existait, il était
+    # inatteignable. Constaté le 7 septembre 2026.
+    try:
+        ids = search_ids(s, "")
+    except Exception as erreur:
+        print(f"  -> requête vide refusée ({erreur})")
+        ids = []
     if ids:
         print(f"  -> catalogue énuméré directement : {len(ids)} articles")
         return ids
 
-    print("  -> requête vide non supportée, passage par les requêtes-graines")
+    print("  -> passage par les requêtes-graines")
     allids: set[int] = set()
     for q in SEED_QUERIES:
         print(f"  graine « {q} »")

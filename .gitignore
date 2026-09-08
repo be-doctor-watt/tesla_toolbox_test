@@ -9,6 +9,8 @@ ids.json
 qdrant_data/
 # Contient des extraits de doc Tesla.
 conversations.json
+# Journal du crawl : porte les titres des articles parcourus.
+crawl.log
 conversations.json.*
 
 # Environnement local
